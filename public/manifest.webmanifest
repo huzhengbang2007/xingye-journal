@@ -1,0 +1,14 @@
+{
+  "name": "星野记 · 日程与生活账本",
+  "short_name": "星野记",
+  "lang": "zh-CN",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#eef3ff",
+  "theme_color": "#426bdf",
+  "icons": [
+    { "src": "/assets/avatar.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

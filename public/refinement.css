@@ -1,0 +1,325 @@
+/* Layered colour gives the glass a real surface to sample. */
+:root {
+  --page-atmosphere:
+    radial-gradient(ellipse at 8% 8%, #d6c5ed 0, transparent 52%),
+    radial-gradient(ellipse at 94% 42%, #b7d7eb 0, transparent 54%),
+    linear-gradient(145deg, #eee7f4, #d9e6f4 50%, #e4eeea);
+}
+html[data-theme='dark'] {
+  --page-atmosphere:
+    radial-gradient(ellipse at 5% 0%, #34304e, transparent 55%),
+    radial-gradient(ellipse at 95% 45%, #1e4355, transparent 58%),
+    linear-gradient(140deg, #191e32, #162736 55%, #243633);
+}
+body {
+  background: var(--page-atmosphere);
+  background-attachment: fixed;
+}
+.app-shell {
+  background: transparent;
+}
+.main-shell {
+  background: transparent;
+}
+.hero {
+  min-height: 240px;
+  border-radius: 24px;
+}
+.brand-symbol,
+.avatar,
+.avatar-button {
+  background: url('/assets/avatar.png') center / cover !important;
+  color: transparent !important;
+  overflow: hidden;
+}
+.brand-symbol {
+  font-size: 0;
+}
+.brand-symbol::before,
+.brand-symbol::after {
+  display: none;
+}
+.avatar {
+  font-size: 0 !important;
+  border: 1px solid var(--edge);
+}
+.sidebar nav,
+.mobile-nav {
+  position: relative;
+  isolation: isolate;
+}
+.nav-selection {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  border-radius: 22px;
+  background: var(--accent-soft);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    0 3px 12px #172d4b0c;
+  pointer-events: none;
+  transition:
+    transform 0.34s cubic-bezier(0.22, 0.8, 0.25, 1),
+    width 0.34s,
+    height 0.34s;
+}
+.sidebar nav .nav-item,
+.mobile-nav button {
+  position: relative;
+  z-index: 1;
+}
+.sidebar nav .nav-item.active,
+.mobile-nav button.active {
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+.daily-card {
+  margin-bottom: 24px;
+}
+.daily-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+.daily-toolbar h2 {
+  margin-right: auto;
+}
+.daily-toolbar input {
+  width: auto;
+}
+.course-timeline {
+  display: grid;
+  gap: 12px;
+}
+.course-slot {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  gap: 18px;
+  align-items: center;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface-soft);
+}
+.course-slot strong {
+  font-size: 15px;
+}
+.course-slot small {
+  display: block;
+  color: var(--muted);
+  margin-top: 5px;
+}
+.course-slot.current {
+  border-color: var(--accent);
+}
+.course-slot.past {
+  opacity: 0.6;
+}
+.place-tools {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 10px 0 18px;
+}
+.place-status {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 8px 0;
+}
+.location-link {
+  color: var(--accent-ink);
+  text-decoration: none;
+  font-size: 12px;
+}
+.daily-empty {
+  padding: 28px;
+  color: var(--muted);
+  text-align: center;
+}
+@media (min-width: 701px) and (max-width: 1250px) {
+  body {
+    padding: 20px;
+  }
+  .app-shell {
+    display: block;
+    border: 0;
+    box-shadow: none;
+    overflow: visible;
+  }
+  .main-shell {
+    margin-left: 112px;
+    border-radius: 26px;
+    overflow: clip;
+    background: var(--surface-soft);
+    border: 1px solid var(--edge);
+  }
+  .sidebar {
+    position: fixed !important;
+    left: max(16px, env(safe-area-inset-left));
+    top: 50% !important;
+    transform: translateY(-50%);
+    width: 88px !important;
+    height: auto !important;
+    max-height: calc(100dvh - 48px);
+    border-radius: 44px !important;
+    padding: 18px 8px !important;
+    border: 1px solid var(--edge);
+    background: var(--chrome);
+    backdrop-filter: blur(24px) saturate(1.3);
+    box-shadow: 0 12px 40px #172d4b18;
+    z-index: 95;
+    overflow: auto;
+  }
+  .sidebar > .brand,
+  .sidebar > .workspace-label,
+  .sidebar-bottom .privacy-card,
+  .sidebar-bottom .profile {
+    display: none !important;
+  }
+  .sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow: visible;
+  }
+  .sidebar .nav-item {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    min-height: 62px;
+    padding: 10px 2px !important;
+    border-radius: 25px;
+    margin: 0;
+    width: 100%;
+  }
+  .sidebar .nav-item > span:not([data-icon]) {
+    display: block !important;
+    font-size: 10px;
+  }
+  .sidebar .nav-item kbd,
+  .sidebar .nav-item em {
+    display: none;
+  }
+  .sidebar-bottom {
+    padding-top: 12px;
+  }
+  .topbar {
+    border-radius: 0;
+  }
+}
+@media (max-width: 700px) {
+  .mobile-nav {
+    position: fixed;
+  }
+  .mobile-nav button {
+    transition: color 0.2s;
+  }
+  .mobile-nav {
+    background: color-mix(in srgb, var(--chrome) 85%, transparent);
+    backdrop-filter: blur(24px) saturate(1.4);
+  }
+  .course-slot {
+    grid-template-columns: 68px minmax(0, 1fr);
+    padding: 14px;
+    gap: 10px;
+  }
+  .daily-toolbar {
+    gap: 8px;
+  }
+  .daily-toolbar input {
+    max-width: 150px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-selection {
+    transition: none;
+  }
+}
+
+html,
+body,
+.calendar-cell {
+  touch-action: pan-x pan-y !important;
+}
+html[data-course-window] .sidebar,
+html[data-course-window] .mobile-nav,
+html[data-course-window] .calendar-card,
+html[data-course-window] .gesture-hint,
+html[data-course-window] #content > .toolbar,
+html[data-course-window] #content > .notice,
+html[data-course-window] .page-footer {
+  display: none !important;
+}
+html[data-course-window] .app-shell {
+  display: block;
+  margin: 0;
+  min-height: 100dvh;
+}
+html[data-course-window] .main-shell {
+  margin: 0 !important;
+}
+html[data-course-window] body {
+  padding: 0;
+}
+html[data-course-window] #content {
+  padding: 20px 16px;
+}
+html[data-course-window] .daily-card {
+  padding: 20px;
+}
+
+@media (min-width: 701px) and (max-width: 1250px) {
+  .sidebar-bottom .profile {
+    display: flex !important;
+    width: 100%;
+    min-height: 48px;
+    padding: 8px;
+    justify-content: center;
+    border-radius: 32px;
+  }
+  .sidebar-bottom .profile > span:not(.avatar) {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .topbar:has(#form-drafts) {
+    flex-wrap: wrap;
+  }
+  #form-drafts {
+    order: 10;
+    flex-basis: 100%;
+  }
+}
+
+.pairing-code {
+  display: block;
+  width: min(100%, 360px);
+  height: auto;
+  margin: 16px auto;
+  background: white;
+  border-radius: 12px;
+  shape-rendering: crispEdges;
+}
+.pairing-code path {
+  fill: #000;
+  stroke: none;
+  stroke-width: 0;
+}
+.pairing-code rect {
+  fill: #fff;
+  stroke: none;
+  stroke-width: 0;
+}
+.paired-devices .device-row {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.paired-devices .device-row > span {
+  flex: 1 1 120px;
+  overflow-wrap: anywhere;
+}

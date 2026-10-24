@@ -1,0 +1,20 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "星野记",
+  "version": "3.0.0-rc",
+  "identifier": "cn.xingyeji.desktop",
+  "build": {
+    "frontendDist": "placeholder"
+  },
+  "app": {
+    "windows": [],
+    "security": {
+      "capabilities": []
+    }
+  },
+  "bundle": {
+    "active": false,
+    "publisher": "HOSHINO TEAM",
+    "copyright": "Copyright (c) 2026 HOSHINO TEAM"
+  }
+}

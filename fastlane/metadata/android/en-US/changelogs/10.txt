@@ -1,0 +1,1 @@
+3.0.0-rc candidate: fix scanner runtime dependencies, improve system authentication and sync conflict handling, and add local error summaries. Real-device acceptance testing is still pending.

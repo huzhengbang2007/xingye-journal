@@ -1,0 +1,5 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/widget_root" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="22dp" android:background="@drawable/widget_surface">
+    <TextView android:id="@+id/widget_date" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="每日课表" android:textSize="14sp" android:textColor="#536782" android:textStyle="bold"/>
+    <TextView android:id="@+id/widget_courses" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:layout_marginTop="18dp" android:textSize="15sp" android:textColor="#24354D" android:maxLines="17" android:ellipsize="end"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="星野记 · 点击查看完整课表" android:textSize="11sp" android:textColor="#63748B" android:layout_marginTop="10dp"/>
+</LinearLayout>

@@ -1,0 +1,8 @@
+Xingye Journal keeps your personal schedule, university timetable, expenses and diary on your own devices. The current app interface is in Chinese.
+
+Import and preview ICS, CSV and XLSX files. Review budgets and monthly statistics. Protect your diary with a separate password and export encrypted backups. Android works offline; pair with an unlocked running desktop by scanning a QR code and confirming the connection.
+
+Optional features include a daily timetable widget, system calendar integration and alarms. Optional DeepSeek planning and reviews require your own API key and explicit confirmation for each cloud request. Local features work without AI.
+
+Apache-2.0 licensed. Maintained by HOSHINO TEAM.
+Version 3.0.0-rc is a release candidate. Android camera, lock-screen, reminders and widget behavior still require real-device acceptance testing. Keep your passwords and backups safe; passwords cannot be recovered.

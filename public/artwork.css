@@ -1,0 +1,185 @@
+/* Original artwork from 照片. Keep illustration away from inputs and reading surfaces. */
+.has-hero-art .hero {
+  min-height: 264px;
+  padding: 36px;
+  background-image:
+    linear-gradient(90deg, #203e7edb, #315995b3 43%, #355b8c10 72%), url('/assets/hero.png');
+  background-position: center;
+  background-size: cover;
+}
+.has-hero-art .hero > div:first-child {
+  max-width: 57%;
+}
+.has-hero-art .hero h2 {
+  font-size: clamp(23px, 2.2vw, 32px);
+  line-height: 1.65;
+  text-shadow: 0 2px 14px #18376b40;
+}
+.has-hero-art .hero h2 span {
+  display: block;
+}
+.has-hero-art .hero p {
+  max-width: 350px;
+  color: #edf4ff;
+  line-height: 1.9;
+}
+.has-hero-art .hero .eyebrow {
+  color: #dceaff;
+  line-height: 1.8;
+}
+.has-hero-art .hero-art {
+  display: none;
+}
+.has-hero-art .hero:after {
+  display: none;
+}
+.has-cover-art .auth-story {
+  background-image:
+    linear-gradient(180deg, #112e61bb, #24467852 45%, #18365d08 72%, #102c5680),
+    url('/assets/cover.png');
+  background-position: center;
+  background-size: cover;
+}
+.has-cover-art .auth-story > div {
+  margin: 32px 0 auto;
+}
+.has-cover-art .auth-story h1 {
+  font-size: clamp(32px, 3.1vw, 48px);
+  line-height: 1.5;
+  text-shadow: 0 2px 20px #14356d55;
+}
+.has-cover-art .auth-story p {
+  color: #f0f6ff;
+}
+.has-cover-art .auth-story .eyebrow {
+  color: #d9e9ff;
+}
+.has-cover-art .auth-story .orbit-art,
+.has-cover-art .auth-story:after {
+  display: none;
+}
+.has-cover-art .auth-story .auth-foot {
+  margin-top: 28px;
+}
+.has-mascot-art .privacy-card {
+  position: relative;
+  padding-top: 77px;
+}
+.has-mascot-art .privacy-card:before {
+  content: '';
+  position: absolute;
+  width: 92px;
+  height: 92px;
+  top: -13px;
+  right: 10px;
+  background: url('/assets/mascot.png') center / contain no-repeat;
+  pointer-events: none;
+}
+.has-mascot-art .privacy-card > span:first-child {
+  position: absolute;
+  top: 24px;
+  left: 15px;
+}
+.has-mascot-art .diary-lock-art {
+  background: url('/assets/mascot.png') center / contain no-repeat;
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 0;
+  position: relative;
+}
+.has-mascot-art .diary-lock-art small {
+  position: absolute;
+  bottom: -12px;
+  color: #647fae;
+}
+.has-cover-art .diary-root:has(.diary-unlock) {
+  display: grid;
+  grid-template-columns: minmax(200px, 0.85fr) minmax(340px, 1fr);
+  padding: 0;
+  overflow: hidden;
+}
+.has-cover-art .diary-root:has(.diary-unlock):before {
+  content: '';
+  position: static;
+  inset: auto;
+  border: 0;
+  border-radius: 0;
+  background: url('/assets/cover.png') center 60% / cover no-repeat;
+  opacity: 1;
+  pointer-events: none;
+}
+.has-cover-art .diary-root:has(.diary-unlock):after {
+  display: none;
+}
+.has-cover-art .diary-unlock {
+  padding: 34px 28px;
+  margin: auto;
+  max-width: 426px;
+  width: 100%;
+}
+.has-cover-art .diary-unlock h2 {
+  margin-left: 0;
+  margin-right: 0;
+}
+@media (max-width: 1100px) and (min-width: 701px) {
+  .has-cover-art .diary-root:has(.diary-unlock) {
+    grid-template-columns: minmax(160px, 0.65fr) minmax(310px, 1fr);
+  }
+  .has-hero-art .hero {
+    padding: 28px;
+  }
+  .has-hero-art .hero > div:first-child {
+    max-width: 63%;
+  }
+}
+@media (max-width: 700px) {
+  .has-hero-art .hero {
+    min-height: 306px;
+    padding: 24px 21px;
+    align-items: flex-end;
+    background-image:
+      linear-gradient(90deg, #1c3d78c9, #244a845c 64%, #244a8408),
+      linear-gradient(0deg, #193965c9, #244a8400 85%), url('/assets/hero.png');
+    background-position:
+      center,
+      center,
+      71% center;
+  }
+  .has-hero-art .hero > div:first-child {
+    max-width: 100%;
+  }
+  .has-hero-art .hero h2 {
+    font-size: 22px;
+  }
+  .has-hero-art .hero .eyebrow {
+    max-width: 185px;
+    display: block;
+    font-size: 7px;
+  }
+  .has-hero-art .hero p {
+    max-width: 245px;
+    font-size: 11px;
+  }
+  .has-cover-art .auth-story {
+    min-height: 345px;
+    background-position: center 37%;
+    padding: 26px 30px;
+  }
+  .has-cover-art .auth-story > div {
+    margin-top: 28px;
+  }
+  .has-cover-art .auth-story h1 {
+    font-size: 30px;
+  }
+  .has-cover-art .diary-root:has(.diary-unlock) {
+    display: block;
+  }
+  .has-cover-art .diary-root:has(.diary-unlock):before {
+    display: block;
+    height: 170px;
+    background-position: center 47%;
+  }
+  .has-cover-art .diary-unlock {
+    padding: 26px 22px 30px;
+  }
+}

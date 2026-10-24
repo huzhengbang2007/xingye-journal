@@ -1,0 +1,9 @@
+﻿{
+    "trust":  "self-signed",
+    "publisher":  "HOSHINO TEAM",
+    "exponent":  "AQAB",
+    "certificateSha256":  "eca5d3d075b20e10a82fd6730fba1cf9bc93b6cf22c1f85f41f647468557c913",
+    "certificateSubject":  "CN=HOSHINO TEAM, O=HOSHINO TEAM",
+    "modulus":  "mfRBHgVHGUU0yJ470WKayNgWsnVZ/uq6bvDMJjZ3ynNJijcHnJuyV9aCV+iiXjPKAKIggEy9JBHuNH4GWYuRpzZE+7bnIMQrvr89LrjGoZQ5qsXFUumew+MYvmLIIymaNOrUr+KjogCvg6WBy/qIkhmjrsGqJk4CCQo4eZ/2ZpohO2f0Nngn4N9rm769hHk2V6ZrVHE6tr7l2oP/kW5ES3QjJjqaGn+4LtM7DnFmODacnTIy3X2CesQWRvRQCS6q67bHZ/N1xQUHCsZpYU4k2PNpAApW/W8kzU0MbN1DjqwWweJQObYy5HuTuleeyGPS4nHaQyVZQ3GoYsjp0rQ2/hFoGGogAk/zXT+gmtcguJuYfG3XWmJ/GlG4lyA8AfLX2affEmGqWZg1GCY/NTQPEE6B0Qyx+q5c4eTJn3ebnY4wYD0VZkTp/sukUPlriOvomk44QG7XrvOc0f1JJXXQsp1CiTs33LOPUzf+0a9kd9+k4olae2SyCXFFFpq7A+6l",
+    "algorithm":  "RSA-SHA256"
+}

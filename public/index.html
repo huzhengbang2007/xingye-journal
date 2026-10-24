@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#eef2f7" />
+    <meta
+      name="description"
+      content="星野记：本地加密的日程、大学课表与个人账本，借助 DeepSeek 从容安排每一天。"
+    />
+    <link rel="icon" href="/assets/avatar.png" type="image/png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <script src="/appearance.js"></script>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/theme.css" />
+    <link rel="stylesheet" href="/glass.css" />
+    <link rel="stylesheet" href="/artwork.css" />
+    <link rel="stylesheet" href="/experience.css" />
+    <link rel="stylesheet" href="/desktop.css" />
+    <link rel="stylesheet" href="/refinement.css" />
+    <title>星野记 · 把日子过成喜欢的样子</title>
+    <script src="/app.js" type="module"></script>
+    <script src="/desktop.js" type="module"></script>
+    <script src="/navigation.js" type="module"></script>
+  </head>
+  <body>
+    <div id="auth" class="auth-shell">
+      <section class="auth-story">
+        <a class="brand" href="/"
+          ><span class="brand-symbol">✦</span><span>星野记<small>XINGYE JOURNAL</small></span></a
+        >
+        <div>
+          <span class="eyebrow">LESS RUSH. MORE LIFE.</span>
+          <h1>宇宙很大，<br />记住你的小日常。</h1>
+          <p>日程 · 生活 · 秘密心事<br />让每个普通日子，都有自己的光。</p>
+          <div class="orbit-art" aria-hidden="true">
+            <span></span><span></span><span></span><b>✳</b>
+          </div>
+        </div>
+        <p class="auth-foot">为大工生活而作 · 为你的隐私而设计</p>
+      </section>
+      <section class="auth-panel">
+        <div class="auth-card">
+          <span class="secure-badge">◈ 本地加密保险库</span>
+          <h2 id="auth-title">欢迎来到星野记</h2>
+          <p id="auth-description">正在连接本地保险库…</p>
+          <form id="auth-form">
+            <label
+              >主密码<input
+                id="password"
+                name="password"
+                type="password"
+                minlength="10"
+                maxlength="256"
+                autocomplete="current-password"
+                required
+                placeholder="至少 10 个字符" /></label
+            ><label id="confirm-label" hidden
+              >确认主密码<input
+                id="confirm-password"
+                type="password"
+                minlength="10"
+                maxlength="256"
+                autocomplete="new-password"
+                placeholder="再输入一次主密码"
+            /></label>
+            <p class="form-error" id="auth-error" role="alert"></p>
+            <button class="button primary wide" id="auth-submit" disabled>
+              进入我的空间 <span>↗</span>
+            </button>
+          </form>
+          <p class="auth-note">
+            日程、账单与 API 密钥均加密存储。主密码无法找回，请妥善保管，并定期导出加密备份。
+          </p>
+        </div>
+      </section>
+    </div>
+    <div id="app" class="app-shell" hidden>
+      <aside class="sidebar">
+        <a class="brand" href="/"
+          ><span class="brand-symbol">✦</span><span>星野记<small>XINGYE JOURNAL</small></span></a
+        >
+        <div class="workspace-label">我的生活空间 <span>PERSONAL</span></div>
+        <nav aria-label="主导航">
+          <button data-nav="dashboard" class="nav-item active">
+            <span data-icon="grid"></span><span>生活概览</span><kbd>01</kbd></button
+          ><button data-nav="calendar" class="nav-item">
+            <span data-icon="calendar"></span><span>日程与课表</span><kbd>02</kbd></button
+          ><button data-nav="planner" class="nav-item">
+            <span data-icon="spark"></span><span>AI 规划师</span><em>AI</em></button
+          ><button data-nav="automations" class="nav-item">
+            <span data-icon="clock"></span><span>自动任务</span></button
+          ><button data-nav="ledger" class="nav-item">
+            <span data-icon="wallet"></span><span>生活账本</span><kbd>04</kbd></button
+          ><button data-nav="diary" class="nav-item">
+            <span data-icon="book"></span><span>星野手记</span><em>私密</em></button
+          ><button data-nav="reports" class="nav-item">
+            <span data-icon="chart"></span><span>月度复盘</span><kbd>05</kbd>
+          </button>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="privacy-card">
+            <span data-icon="shield"></span><strong>属于你的，留在本地。</strong>
+            <p>加密保存每一个计划<br />和生活里的小小记录。</p>
+            <span class="dot-label">本地加密已开启</span>
+          </div>
+          <button data-nav="settings" class="nav-item">
+            <span data-icon="settings"></span><span>设置与安全</span></button
+          ><button id="lock-button" class="profile" aria-label="锁定保险库">
+            <span class="avatar">同</span
+            ><span><strong id="profile-name">我的空间</strong><small>锁定保险库</small></span
+            ><span data-icon="lock"></span>
+          </button>
+        </div>
+      </aside>
+      <div class="main-shell">
+        <header class="topbar">
+          <div class="breadcrumb">
+            我的空间 <span>/</span> <strong id="page-name">生活概览</strong>
+          </div>
+          <div class="topbar-actions">
+            <button class="sync-status" id="sync-status" type="button" title="同步其他设备更新">
+              一键同步</button
+            ><button class="button small" id="quick-add">
+              <span data-icon="plus"></span>新建日程</button
+            ><button class="avatar avatar-button" id="mobile-lock" aria-label="锁定保险库">
+              同
+            </button>
+          </div>
+        </header>
+        <main id="content" tabindex="-1"></main>
+        <footer class="page-footer">
+          <span>星野记 3.0.0-rc · HOSHINO TEAM</span><span>把日常，写成自己的星图。</span
+          ><span>北京时间 · UTC+8</span>
+        </footer>
+      </div>
+      <nav class="mobile-nav" aria-label="移动端导航">
+        <button data-nav="dashboard"><span data-icon="grid"></span><span>概览</span></button
+        ><button data-nav="calendar"><span data-icon="calendar"></span><span>日程</span></button
+        ><button data-nav="planner"><span data-icon="spark"></span><span>AI 规划</span></button
+        ><button data-nav="automations"><span data-icon="clock"></span><span>任务</span></button
+        ><button data-nav="ledger"><span data-icon="wallet"></span><span>账本</span></button
+        ><button data-nav="diary"><span data-icon="book"></span><span>手记</span></button
+        ><button data-nav="settings"><span data-icon="settings"></span><span>设置</span></button>
+      </nav>
+    </div>
+    <dialog id="modal" aria-labelledby="modal-title">
+      <div class="modal-header">
+        <div>
+          <span class="eyebrow">XINGYE JOURNAL / MY SPACE</span>
+          <h2 id="modal-title"></h2>
+        </div>
+        <button id="close-modal" class="icon-button" aria-label="关闭">×</button>
+      </div>
+      <div id="modal-body"></div>
+    </dialog>
+    <div id="toast" class="toast" role="status" hidden></div>
+  </body>
+</html>

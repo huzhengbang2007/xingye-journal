@@ -1,0 +1,18 @@
+[package]
+name = "xingye-vault"
+version = "3.0.0-rc"
+edition = "2021"
+publish = false
+authors = ["HOSHINO TEAM"]
+license = "Apache-2.0"
+
+[dependencies]
+aes-gcm = "0.10.3"
+base64 = "0.22.1"
+pbkdf2 = "0.12.2"
+scrypt = { version = "0.11.0", default-features = false }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10.9"
+zeroize = { version = "1.8", features = ["serde"] }
+

@@ -1,0 +1,4 @@
+[[permission]]
+identifier = "window-actions"
+description = "仅允许当前本机窗口的拖动、最小化、最大化和关闭。"
+commands.allow = ["window_action"]

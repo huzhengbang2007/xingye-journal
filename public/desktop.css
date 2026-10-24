@@ -1,0 +1,71 @@
+html[data-native-desktop] {
+  background: transparent !important;
+}
+html[data-native-desktop] body {
+  padding: 38px 0 0 !important;
+  background: transparent !important;
+  min-height: 100dvh;
+}
+html[data-native-desktop] body::before,
+html[data-native-desktop] body::after {
+  display: none;
+}
+html[data-native-desktop] .app-shell,
+html[data-native-desktop] .auth-shell {
+  margin: 0;
+  max-width: none;
+  min-height: calc(100dvh - 38px);
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
+  background: color-mix(in srgb, var(--surface, #eff4fd) 72%, transparent);
+}
+html[data-native-desktop] .sidebar {
+  top: 38px;
+  height: calc(100dvh - 38px);
+  border-radius: 0;
+}
+.native-titlebar {
+  position: fixed;
+  z-index: 150;
+  inset: 0 0 auto;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  background: color-mix(in srgb, var(--surface, #eff4fd) 65%, transparent);
+  color: var(--ink, #24334f);
+  border-bottom: 1px solid #ffffff30;
+  user-select: none;
+}
+.native-drag {
+  flex: 1;
+  padding: 0 18px;
+  font-size: 12px;
+  line-height: 38px;
+}
+.native-drag span {
+  opacity: 0.55;
+  margin-left: 16px;
+  font-size: 10px;
+}
+.native-window-actions {
+  display: flex;
+  height: 100%;
+}
+.native-window-actions button {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  width: 46px;
+  min-height: 0;
+  font-size: 18px;
+  cursor: pointer;
+}
+.native-window-actions button:hover {
+  background: #8096bc28;
+}
+.native-window-actions button[data-window='close']:hover {
+  background: #c74252;
+  color: white;
+}

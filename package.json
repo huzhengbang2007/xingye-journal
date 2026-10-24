@@ -1,0 +1,37 @@
+{
+  "name": "xingye-journal",
+  "version": "3.0.0-rc",
+  "androidVersionCode": 10,
+  "private": true,
+  "type": "module",
+  "description": "星野记 · 本地加密日程、课表与账本",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "format": "prettier --write \"public/**/*.{js,css,html}\" \"lib/*.mjs\" \"tests/*.mjs\" \"scripts/*.mjs\" server.mjs",
+    "format:check": "prettier --check \"public/**/*.{js,css,html}\" \"lib/*.mjs\" \"tests/*.mjs\" \"scripts/*.mjs\" server.mjs",
+    "check": "node scripts/check-source.mjs",
+    "test:browser": "node scripts/browser-check.mjs",
+    "test:offline": "node scripts/offline-check.mjs",
+    "test:appearance": "node scripts/appearance-check.mjs",
+    "test:import": "node scripts/import-check.mjs",
+    "test:rust": "node scripts/run-vault-check.mjs",
+    "test:devices": "node scripts/device-sync-check.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "prettier": "3.6.2",
+    "playwright-core": "1.62.1"
+  },
+  "author": "HOSHINO TEAM",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/huzhengbang2007/xingye-journal.git"
+  },
+  "bugs": {
+    "url": "https://github.com/huzhengbang2007/xingye-journal/issues"
+  }
+}
