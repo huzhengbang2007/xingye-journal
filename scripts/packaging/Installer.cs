@@ -75,7 +75,7 @@ internal static class Installer
                 }
             }
             string script = Path.Combine(work, quiet ? "install.ps1" : "setup-wizard.ps1");
-            string command = "$ErrorActionPreference='Stop'; & " + Quote(script) + " -Destination " + Quote(destination);
+            string command = "$ErrorActionPreference='Stop'; $ProgressPreference='SilentlyContinue'; & " + Quote(script) + " -Destination " + Quote(destination);
             if (quiet) command += " -NoLaunch";
             if (noDesktop) command += " -NoShortcut";
             if (noStartMenu) command += " -NoStartMenu";
@@ -83,7 +83,9 @@ internal static class Installer
             ProcessStartInfo start = new ProcessStartInfo();
             // Use the system Windows PowerShell, never a PATH-provided executable.
             start.FileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), @"WindowsPowerShell\v1.0\powershell.exe");
-            start.Arguments = "-NoProfile -NonInteractive -STA -ExecutionPolicy Bypass -EncodedCommand " + Convert.ToBase64String(Encoding.Unicode.GetBytes(command));
+            start.Arguments = "-NoProfile -NonInteractive -OutputFormat Text -STA -ExecutionPolicy Bypass -EncodedCommand " + Convert.ToBase64String(Encoding.Unicode.GetBytes(command));
+            // A PowerShell 7 caller may pass an incompatible module path to Windows PowerShell.
+            start.EnvironmentVariables["PSModulePath"] = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), @"WindowsPowerShell\v1.0\Modules");
             start.WorkingDirectory = work;
             start.UseShellExecute = false;
             start.CreateNoWindow = true;

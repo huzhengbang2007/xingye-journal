@@ -9,6 +9,7 @@ $results = [Collections.Generic.List[object]]::new()
 function Run-Installer([string]$Executable, [string[]]$Arguments, [int]$Expected, [string]$Scenario) {
     $start = [Diagnostics.ProcessStartInfo]::new($Executable)
     $start.UseShellExecute = $false; $start.CreateNoWindow = $true; $start.WindowStyle = 'Hidden'
+    $start.Environment['PSModulePath'] = Join-Path ([Environment]::GetFolderPath('System')) 'WindowsPowerShell\v1.0\Modules'
     foreach($argument in $Arguments) { $start.ArgumentList.Add($argument) }
     $process = [Diagnostics.Process]::Start($start)
     $visible = $false
@@ -80,6 +81,13 @@ try {
     $reportPath=Join-Path (Split-Path -Parent $InstallerInfoPath) 'INSTALLER-VERIFICATION.json'
     $report | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath $reportPath -Encoding utf8
     $report | ConvertTo-Json -Depth 6
+} catch {
+    $failure = $_
+    if (Test-Path -LiteralPath (Join-Path $probe 'installer.log')) {
+        Copy-Item -LiteralPath (Join-Path $probe 'installer.log') -Destination (Join-Path (Split-Path -Parent $InstallerInfoPath) 'INSTALLER-CHECK-FAILURE.log')
+        Get-Content -LiteralPath (Join-Path $probe 'installer.log') -Tail 12 | Write-Host
+    }
+    throw $failure
 } finally {
     $resolved=[IO.Path]::GetFullPath($probe)
     $allowed=(Join-Path ([IO.Path]::GetFullPath($root)) 'tmp').TrimEnd('\')+'\'
