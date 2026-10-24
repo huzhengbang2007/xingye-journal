@@ -1,4 +1,4 @@
-param([string]$Node, [string]$NativeDirectory, [switch]$AllowDirtyReview)
+param([string]$Node, [string]$NativeDirectory, [switch]$AllowDirtyReview, [ValidateRange(1,65535)][int]$InstallerRevision = 2)
 $ErrorActionPreference = 'Stop'
 $project = Split-Path -Parent $PSScriptRoot
 $pin = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'packaging\node-runtime.json') -Raw | ConvertFrom-Json
@@ -65,50 +65,9 @@ $wizardPath = Join-Path $work 'setup-wizard.ps1'
 [IO.File]::WriteAllText($wizardPath, [IO.File]::ReadAllText($wizardPath), [Text.UTF8Encoding]::new($true))
 & (Join-Path $PSScriptRoot 'sign-release.ps1') -File $wizardPath
 $exe = Join-Path $work 'xingyeji-windows-setup.exe'
-$sed = @"
-[Version]
-Class=IEXPRESS
-SEDVersion=3
-[Options]
-PackagePurpose=InstallApp
-ShowInstallProgramWindow=0
-HideExtractAnimation=1
-UseLongFileName=1
-InsideCompressed=0
-CAB_FixedSize=0
-CAB_ResvCodeSigning=0
-RebootMode=N
-InstallPrompt=
-DisplayLicense=
-FinishMessage=
-TargetName=$exe
-FriendlyName=Xingye Journal $version
-AppLaunched=cmd.exe /d /c install.cmd
-PostInstallCmd=<None>
-AdminQuietInstCmd=
-UserQuietInstCmd=
-SourceFiles=SourceFiles
-[Strings]
-FILE0="payload.zip"
-FILE1="install.ps1"
-FILE2="install.cmd"
-FILE3="setup-wizard.ps1"
-FILE4="icon.ico"
-[SourceFiles]
-SourceFiles0=$work\
-[SourceFiles0]
-%FILE0%=
-%FILE1%=
-%FILE2%=
-%FILE3%=
-%FILE4%=
-"@
-$sedPath = Join-Path $work 'package.sed'
-[IO.File]::WriteAllText($sedPath, $sed, [Text.Encoding]::ASCII)
-$builder = Start-Process -FilePath "$env:WINDIR\System32\iexpress.exe" -ArgumentList @('/N','/Q', $sedPath) -WindowStyle Hidden -PassThru -Wait
-if ($builder.ExitCode -ne 0 -or -not (Test-Path -LiteralPath $exe)) { throw "IExpress packaging failed: $($builder.ExitCode). Work: $work" }
+& (Join-Path $PSScriptRoot 'build-installer.ps1') -WorkDirectory $work -OutputFile $exe -Version $version -Revision $InstallerRevision
 # Versioned output was reserved before packaging.
-$target = Join-Path $releases "xingyeji-$version-windows-x64-setup.exe"
+$target = Join-Path $releases "xingyeji-$version-windows-x64-setup-r$InstallerRevision.exe"
 Copy-Item -LiteralPath $exe -Destination $target
 & (Join-Path $PSScriptRoot 'sign-release.ps1') -File $target
 Copy-Item -LiteralPath (Join-Path $work 'payload.zip') -Destination $releases
@@ -121,3 +80,4 @@ New-Item -ItemType Directory -Path (Join-Path $project '.tooling\packaging') -Fo
 [IO.File]::WriteAllText((Join-Path $project '.tooling\packaging\last-build.txt'), $work)
 Write-Host "Created: $target"
 Write-Host "Staging: $work"
+@{version=$version;installerRevision=$InstallerRevision;installer=$target;stage=$stage;work=$work;silentArguments='/quiet /norestart';signingTrust='self-signed';returnCodesUrl='https://huzhengbang2007.github.io/xingye-journal/installer.html'} | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $releases 'INSTALLER-INFO.json') -Encoding UTF8

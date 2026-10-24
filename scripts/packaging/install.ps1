@@ -4,13 +4,27 @@ param([string]$Destination = (Join-Path $env:LOCALAPPDATA 'XingyeJournal'), [swi
 $ErrorActionPreference = 'Stop'
 $changed = [Collections.Generic.List[string]]::new()
 $installed = $false
+$failureCode = 1603
+$installMutex = $null
+$ownsInstallMutex = $false
+function Stop-Installation([int]$Code, [string]$Message) {
+    $exception = New-Object InvalidOperationException($Message)
+    $exception.Data['InstallerExitCode'] = $Code
+    throw $exception
+}
 try {
+    $installMutex = New-Object Threading.Mutex($false, ('Local\Hoshino.Xingye.Install.' + [Security.Principal.WindowsIdentity]::GetCurrent().User.Value))
+    try { $ownsInstallMutex = $installMutex.WaitOne(0) } catch [Threading.AbandonedMutexException] { $ownsInstallMutex = $true }
+    if (-not $ownsInstallMutex) { Stop-Installation 1618 'Another Xingye installation is running.' }
+    $failureCode = 87
+    if (-not [IO.Path]::IsPathRooted($Destination)) { Stop-Installation 87 'Choose an absolute installation directory.' }
     $destinationPath = [IO.Path]::GetFullPath($Destination)
     if ([IO.Path]::GetPathRoot($destinationPath) -eq $destinationPath) { throw 'Choose an application folder, not a drive root.' }
     $runtimePath = Join-Path $destinationPath 'runtime\node.exe'
     $desktopPath = Join-Path $destinationPath 'xingye-desktop.exe'
     $running = Get-CimInstance Win32_Process -Filter "Name = 'node.exe' OR Name = 'xingye-desktop.exe'" | Where-Object { $_.ExecutablePath -and ([string]::Equals($_.ExecutablePath, $runtimePath, [StringComparison]::OrdinalIgnoreCase) -or [string]::Equals($_.ExecutablePath, $desktopPath, [StringComparison]::OrdinalIgnoreCase)) }
-    if ($running) { throw 'Close Xingye Journal before updating.' }
+    if ($running) { Stop-Installation 170 'Close Xingye Journal before updating.' }
+    $failureCode = 13
     $work = Join-Path ([IO.Path]::GetTempPath()) ('xingye-install-' + [Guid]::NewGuid().ToString('N'))
     $stage = Join-Path $work 'stage'
     $backup = Join-Path $work 'rollback'
@@ -46,6 +60,13 @@ try {
     }
     $files = @(Get-ChildItem -LiteralPath $stage -File -Recurse)
     if ($files.Count -ne @($manifest.hashes.PSObject.Properties).Count + 2) { throw 'Unexpected payload file.' }
+    $failureCode = 1603
+    $driveRoot = [IO.Path]::GetPathRoot($destinationPath)
+    if ($driveRoot -match '^[A-Za-z]:\\$') {
+        $driveInfo = New-Object IO.DriveInfo($driveRoot)
+        $requiredBytes = 2 * ($files | Measure-Object Length -Sum).Sum + 32MB
+        if ($driveInfo.AvailableFreeSpace -lt $requiredBytes) { Stop-Installation 112 'Not enough free space for installation and rollback.' }
+    }
     New-Item -ItemType Directory -Path $destinationPath -Force | Out-Null
     foreach ($file in $files) {
         $relative = $file.FullName.Substring($stage.Length + 1)
@@ -91,23 +112,40 @@ try {
     $cleanupTarget = [IO.Path]::GetFullPath($work)
     $temporaryPrefix = [IO.Path]::GetFullPath([IO.Path]::GetTempPath()).TrimEnd('\') + '\'
     if ($cleanupTarget.StartsWith($temporaryPrefix, [StringComparison]::OrdinalIgnoreCase) -and [IO.Path]::GetFileName($cleanupTarget) -match '^xingye-install-[a-f0-9]{32}$') {
-        Remove-Item -LiteralPath $cleanupTarget -Recurse -Force
+        try { Remove-Item -LiteralPath $cleanupTarget -Recurse -Force } catch { Write-Warning 'Installed successfully; temporary staging could not be removed.' }
     }
     if (-not $NoLaunch) {
         try { Start-Process -FilePath (Join-Path $destinationPath 'start.cmd') -WorkingDirectory $destinationPath -WindowStyle Hidden }
         catch { Write-Warning 'Installed successfully; open start.cmd to launch the application.' }
     }
 } catch {
+    $originalError = $_
+    $exitCode = $failureCode
+    $exception = $_.Exception
+    while ($exception) {
+        if ($exception.Data.Contains('InstallerExitCode')) { $exitCode = [int]$exception.Data['InstallerExitCode']; break }
+        if ($exception -is [UnauthorizedAccessException]) { $exitCode = 5; break }
+        if ($exception -is [IO.IOException] -and (($exception.HResult -band 0xffff) -in @(112,39))) { $exitCode = 112; break }
+        $exception = $exception.InnerException
+    }
     if (-not $installed) {
-        foreach ($relative in $changed) {
+        $rollbackFiles = $changed.ToArray()
+        [array]::Reverse($rollbackFiles)
+        foreach ($relative in $rollbackFiles) {
             $target = [IO.Path]::GetFullPath((Join-Path $destinationPath $relative))
             if (-not $target.StartsWith($destinationPath.TrimEnd('\') + '\', [StringComparison]::OrdinalIgnoreCase)) { continue }
             $previous = Join-Path $backup $relative
-            if (Test-Path -LiteralPath $previous) { Copy-Item -LiteralPath $previous -Destination $target -Force }
-            elseif (Test-Path -LiteralPath $target) { Remove-Item -LiteralPath $target }
+            try {
+                if (Test-Path -LiteralPath $previous) { Copy-Item -LiteralPath $previous -Destination $target -Force }
+                elseif (Test-Path -LiteralPath $target) { Remove-Item -LiteralPath $target }
+            } catch { Write-Warning "Rollback needs attention; retained backup: $backup" }
         }
     }
-    Write-Host "Installation failed: $($_.Exception.Message)"
+    Write-Host "Installation failed ($exitCode): $($originalError.Exception.Message)"
     if (-not $NoLaunch) { Read-Host 'Press Enter to close' }
-    exit 1
+    exit $exitCode
+} finally {
+    if ($ownsInstallMutex) { $installMutex.ReleaseMutex() }
+    if ($installMutex) { $installMutex.Dispose() }
 }
+exit 0

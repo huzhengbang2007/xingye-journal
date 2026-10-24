@@ -1,4 +1,4 @@
-param([string]$Destination = (Join-Path $env:LOCALAPPDATA 'XingyeJournal'), [switch]$PrepareOnly)
+param([string]$Destination = (Join-Path $env:LOCALAPPDATA 'XingyeJournal'), [switch]$PrepareOnly, [switch]$NoShortcut, [switch]$NoStartMenu)
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
@@ -27,10 +27,10 @@ $location.Text = $Destination; $location.SetBounds(30,145,420,29); $form.Control
 $browse = New-Object Windows.Forms.Button
 $browse.Text = '浏览…'; $browse.SetBounds(460,143,90,31); $form.Controls.Add($browse)
 $desktop = New-Object Windows.Forms.CheckBox
-$desktop.Text = '在桌面创建星野记图标'; $desktop.Checked = $true
+$desktop.Text = '在桌面创建星野记图标'; $desktop.Checked = -not $NoShortcut
 $desktop.SetBounds(30,191,500,28); $form.Controls.Add($desktop)
 $menu = New-Object Windows.Forms.CheckBox
-$menu.Text = '添加到开始菜单'; $menu.Checked = $true
+$menu.Text = '添加到开始菜单'; $menu.Checked = -not $NoStartMenu
 $menu.SetBounds(30,222,500,28); $form.Controls.Add($menu)
 $launch = New-Object Windows.Forms.CheckBox
 $launch.Text = '安装完成后启动星野记'; $launch.Checked = $true
@@ -43,6 +43,7 @@ $install.Text = '开始安装'; $install.SetBounds(410,346,140,38); $form.Contro
 $form.AcceptButton = $install
 $script:worker = $null
 $script:complete = $false
+$script:setupExitCode = 1602
 $script:timer = New-Object Windows.Forms.Timer
 $script:timer.Interval = 250
 $browse.Add_Click({
@@ -68,7 +69,7 @@ $install.Add_Click({
         if (-not $desktop.Checked) { $arguments += '-NoShortcut' }
         if (-not $menu.Checked) { $arguments += '-NoStartMenu' }
         # Encode paths as PowerShell literals before launching the isolated installation worker.
-        $command = "$" + "ProgressPreference = 'SilentlyContinue'; & '" + (Join-Path $PSScriptRoot 'install.ps1').Replace("'", "''") + "' -Destination '" + $location.Text.Replace("'", "''") + "' " + ($arguments -join ' ') + '; exit 0'
+        $command = "$" + "ProgressPreference = 'SilentlyContinue'; & '" + (Join-Path $PSScriptRoot 'install.ps1').Replace("'", "''") + "' -Destination '" + $location.Text.Replace("'", "''") + "' " + ($arguments -join ' ') + '; exit $LASTEXITCODE'
         $encoded = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($command))
         $script:worker = Start-Process powershell.exe -ArgumentList @('-NoProfile','-OutputFormat','Text','-ExecutionPolicy','Bypass','-EncodedCommand',$encoded) -WindowStyle Hidden -PassThru -RedirectStandardOutput ($script:log + '.out') -RedirectStandardError ($script:log + '.err')
         # Retain the process handle so Windows PowerShell can read ExitCode after it exits.
@@ -84,6 +85,7 @@ $script:timer.Add_Tick({
     $script:timer.Stop()
     $script:worker.WaitForExit()
     $exitCode = $script:worker.ExitCode
+    $script:setupExitCode = $exitCode
     $details = (@([IO.File]::ReadAllText($script:log + '.out'), [IO.File]::ReadAllText($script:log + '.err')) -join "`r`n").Trim()
     foreach ($suffix in @('.out','.err')) { Remove-Item -LiteralPath ($script:log + $suffix) -ErrorAction SilentlyContinue }
     $script:worker.Dispose(); $script:worker = $null
@@ -105,4 +107,4 @@ $form.Add_FormClosing({
     if ($script:worker) { $eventArgs.Cancel = $true; $status.Text = '正在安装，请等待完成后关闭，以免中断更新。' }
 })
 $form.Add_FormClosed({ $script:timer.Dispose() })
-if (-not $PrepareOnly) { [void]$form.ShowDialog(); $form.Dispose() }
+if (-not $PrepareOnly) { [void]$form.ShowDialog(); $form.Dispose(); exit $script:setupExitCode }
