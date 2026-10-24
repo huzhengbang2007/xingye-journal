@@ -2,7 +2,7 @@
 
 本地加密的个人日程、大学课表、生活账本与日记。由 HOSHINO TEAM 维护，采用 [Apache-2.0](LICENSE) 开源许可。
 
-[GitHub 源码](https://github.com/huzhengbang2007/xingye-journal) · [问题反馈](https://github.com/huzhengbang2007/xingye-journal/issues)
+[GitHub 源码](https://github.com/huzhengbang2007/xingye-journal) · [问题反馈](https://github.com/huzhengbang2007/xingye-journal/issues) · [隐私声明](https://huzhengbang2007.github.io/xingye-journal/privacy.html)
 
 当前版本 **3.0.0-rc**，属于发布候选。Android 相机、系统锁屏、提醒、组件及机型兼容仍需真实设备验收。最新发布边界见 [发布说明](RELEASE-3.0.0-rc.md)。
 

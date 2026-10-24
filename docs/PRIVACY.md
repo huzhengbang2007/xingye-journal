@@ -1,6 +1,6 @@
 # 星野记隐私说明
 
-更新日期：2026-10-24。适用版本：3.0.0-rc。开发者标识：HOSHINO TEAM。[支持入口](https://github.com/huzhengbang2007/xingye-journal/issues)。此文件是随源码提供的说明；应用市场发布前仍需配置平台接受的公开政策网址。
+更新日期：2026-10-24。适用版本：3.0.0-rc。开发者标识：HOSHINO TEAM。[支持入口](https://github.com/huzhengbang2007/xingye-journal/issues)。[隐私声明公开网页](https://huzhengbang2007.github.io/xingye-journal/privacy.html)。
 
 ## 本地记录
 

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="星野记隐私声明：本地数据、可选 AI、设备同步、Android 权限、删除与反馈。">
+<title>星野记隐私声明 · HOSHINO TEAM</title>
+<style>
+:root{color-scheme:light dark;font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;line-height:1.85;color:#1f2937;background:#f4f7fc}*{box-sizing:border-box}body{margin:0;padding:32px 16px}main{max-width:860px;margin:auto;padding:36px;background:#fff;border:1px solid #dce4ef;border-radius:18px}h1{font-size:1.9rem;line-height:1.4;margin:8px 0 24px}h2{font-size:1.2rem;margin:32px 0 10px}p{overflow-wrap:anywhere}a{color:#2458b7;text-underline-offset:3px}code{overflow-wrap:anywhere;font-size:.94em}.eyebrow,footer{color:#59677d;font-size:.9rem}table{border-collapse:collapse;width:100%}td,th{text-align:left;padding:10px 12px;border:1px solid #dce4ef;vertical-align:top}th{background:#f0f4fa}.table{overflow-x:auto}footer{margin-top:32px;padding-top:20px;border-top:1px solid #dce4ef}@media(max-width:600px){body{padding:12px}main{padding:22px 18px}h1{font-size:1.6rem}}@media(prefers-color-scheme:dark){:root{color:#e6edf5;background:#111827}main{background:#182234;border-color:#35435a}a{color:#a6c5ff}th{background:#243249}td,th,footer{border-color:#35435a}.eyebrow,footer{color:#b0bfd2}}
+</style>
+</head>
+<body><main>
+<div class="eyebrow">HOSHINO TEAM · 星野记</div>
+<h1>星野记隐私说明</h1>
+<p>更新日期：2026-10-24。适用版本：3.0.0-rc。开发者标识：HOSHINO TEAM。<a href="https://github.com/huzhengbang2007/xingye-journal/issues">支持入口</a>。<a href="https://huzhengbang2007.github.io/xingye-journal/privacy.html">隐私声明公开网页</a>。</p>
+<h2>本地记录</h2>
+<p>日程、课程、账本及设置保存在用户设备的加密保险库中。日记使用独立密码进行二次加密。主密码无法找回，请自行保存密码及加密备份。CSV、Markdown 等明文导出文件由用户自行保管。</p>
+<h2>可选 AI</h2>
+<p>未配置 API Key 时，本地记录、导入、统计与备份仍可使用。启用 DeepSeek 后，每次云端调用都需要明确确认，并使用用户自己的服务额度。</p>
+<p>AI 规划发送本次目标、作息、规划范围、时长及已有日程的日期和起止时间，不发送已有日程标题和地点。月度复盘发送该月汇总统计，不发送交易方、订单号和日程标题。日记不发送给 AI。主动写入目标的个人信息会随目标发送。API Key 作为凭证发送到 <code>https://api.deepseek.com</code>，处理规则受该服务政策约束。</p>
+<h2>设备同步与联网</h2>
+<p>配对由用户扫码并确认后启用，电脑需运行并解锁。双方通过经过身份校验的 TLS 通道交换记录，不使用项目提供的云端中转。密钥和设置不交换，日记交换二次加密密文。电脑监听 TCP 3211、UDP 3212 供设备配对和发现，用户可在设置中撤销配对。</p>
+<p>点击地点地图搜索时，地点文字会作为搜索词交给高德地图；应用不自动获取 GPS。打开学校教务入口时，由外部官方页面处理登录，应用不收集学校账号密码。</p>
+<h2>Android 权限</h2>
+<div class="table"><table><thead><tr><th scope="col">权限</th><th scope="col">用途</th></tr></thead><tbody><tr><td>网络</td><td>用户开启的设备同步、AI 请求和外部链接</td></tr><tr><td>相机</td><td>用户主动扫描配对二维码</td></tr><tr><td>生物识别</td><td>用系统锁屏身份确认原生同步授权</td></tr><tr><td>读写系统日历</td><td>用户授权后的课程和日程同步</td></tr><tr><td>设置闹钟</td><td>用户设置的系统提醒</td></tr></tbody></table></div>
+<p>桌面课表组件仅在用户授权后缓存课程，使用 Android Keystore 加密；关闭展示或移除最后一个组件后清除缓存。错误摘要保存在本机，不自动上传。应用不包含用于广告或行为分析的跟踪服务。</p>
+<h2>删除与反馈</h2>
+<p>应用内可删除记录。为支持撤销误操作和同步，删除标记及最近的加密历史副本可能继续保留。Windows 卸载器保留 <code>data/</code> 和 <code>certs/</code>，需要彻底移除时请先导出所需备份、退出程序，再手动删除这些目录。Android 清除应用数据或卸载会移除应用私有数据；用户导出的文件需另行删除。</p>
+<p>普通问题可通过仓库 Issues 反馈。请勿在公开问题报告中发送个人记录或密钥；安全问题按仓库 SECURITY.md 说明处理。</p>
+<footer><a href="https://github.com/huzhengbang2007/xingye-journal">项目发布页</a> · <a href="https://github.com/huzhengbang2007/xingye-journal/blob/main/docs/PRIVACY.md">查看源码中的声明</a></footer>
+</main></body></html>

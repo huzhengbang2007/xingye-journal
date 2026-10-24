@@ -2,6 +2,14 @@
 
 发布者：**HOSHINO TEAM**。Android versionCode：10。本版功能冻结，定位为最终发布候选；RC 字样仍保留真实设备验收的边界。
 
+## 隐私声明
+
+星野记将个人记录保存在用户设备的加密保险库中；可选 AI 调用须由用户逐次确认，日记不发送给 AI。设备同步须经扫码配对及确认；错误摘要保存在本机，不自动上传。具体数据处理范围、权限用途、导出与删除方式见完整声明。
+
+**完整隐私声明：<https://huzhengbang2007.github.io/xingye-journal/privacy.html>**
+
+源码内保留 [隐私说明](docs/PRIVACY.md)，便于核对版本。
+
 ## 本版重点
 
 - Android 扫码闪退修复：依据安装编号 9 的实机错误摘要及对应混淆映射，定位到 CaptureManager.openCameraWithPermission 对缺失 AndroidX Core 的引用。显式补齐运行时依赖，并在发布与 CI 中检查成品 APK 的 DEX 引用；旧包可复现依赖缺失，新包必须通过检查才允许交付。
