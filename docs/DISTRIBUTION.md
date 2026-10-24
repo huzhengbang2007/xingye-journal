@@ -8,15 +8,15 @@
 - 只推送独立整理后的源码仓库，避免带入旧历史中的个人信息和构建产物。原开发仓库不改写历史。
 - 许可证：Apache-2.0。源码包含 LICENSE、NOTICE、第三方声明、贡献指南和隐私说明。
 - 独立源码目录及 `.zip`、`.tar.xz`、SHA-256 清单由 `node scripts/prepare-open-source.mjs` 生成到 `outputs/open-source/`；脚本不会创建远程仓库或上传文件。
-- 公开前检查源码扫描结果；支持入口为仓库 Issues，隐私说明为 `docs/PRIVACY.md`。上架前仍需将政策发布为平台接受的可公开访问页面。
-- 安装包仍为 RC，只可作为预发布。Windows 最新修复在 `releases/3.0.0-rc/installer-fix/`，Android 最新修复在 `releases/3.0.0-rc/android-scanner-fix/`。不能把旧根目录中的同名安装包当作最新修复包。
-- 现有签名包构建于本次许可和发布资料整理前；未重新构建前，不宣称其与本次源码提交完全一致。现有签名安装包保持原样，不能改包后继续使用原签名。
+- 支持入口为仓库 Issues；[隐私声明网页](https://huzhengbang2007.github.io/xingye-journal/privacy.html) 已公开。
+- 安装包仍为 RC，只可作为预发布。Windows installer revision 2 支持 `/quiet /norestart`，文件名以 `-setup-r2.exe` 结尾；原向导版安装包保持原样。新版的本地验收记录随 `INSTALLER-VERIFICATION.json` 保存，参数和返回码见 [安装器说明](INSTALLER.md)。Android 最新修复仍在 `releases/3.0.0-rc/android-scanner-fix/`。
+- r2 安装包从干净源码提交构建，原生程序复用既有 3.0.0-rc 二进制并重新签名；不是本轮重新编译 Rust。构建提交和文件哈希以各包的签名 BUILD-INFO 为准。旧安装包的历史源码对应关系不随此次变更改写。
 
 ## 推荐首批渠道
 
 | 渠道 | 当前可准备内容 | 提交前缺项 |
 | --- | --- | --- |
-| Microsoft Store（Windows） | 中文介绍、隐私说明、功能清单、截图计划 | Partner Center 账号、应用名预留、正式包；现有 EXE 自签名且未证明静默安装符合要求，应评估 MSIX 或可信 CA 签名和静默安装 |
+| Microsoft Store（Windows） | 开发者账号已注册；中文介绍、公开隐私声明、静默安装器及返回码文档已准备 | 当前 EXE 仍是自签名；正式 EXE 上架需可信 CA 发行签名。MSIX 可由商店签名，但尚缺后台产品标识及数据目录迁移实现与验证 |
 | F-Droid（Android） | Apache 许可、源码构建入口、中英文 fastlane 描述 | 公开源码 URL、版本 tag、完整自由依赖审查、构建配方验证、图标截图；可选 DeepSeek 服务由审核方判断是否需要 NonFreeNet 标记 |
 | 酷安（Android） | 中文文案、包名、权限说明、隐私资料、RC APK 定位 | 开发者登录、当前平台准入核验、支持和隐私网址、实机截图、正式版本验收及平台要求的主体材料 |
 
